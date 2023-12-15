@@ -1,0 +1,36 @@
+/* colors used 
+
+    background-color--green--: #03695b;
+    text-color--white--: #ffffff;
+
+*/
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #03695b;
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.3;
+    color: white;
+}
+.app-container{
+    width: 400px;
+    margin: 0 auto;
+
+}
+.headline{
+    border: white solid 1px;
+
+}
+h1 {
+    font-size: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h2{
+    font-size: 28px;
+}
