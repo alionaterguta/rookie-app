@@ -24,7 +24,7 @@ body {
 
 }
 .headline{
-    border: white solid 1px;
+    border-bottom: white solid 1px;
 
 }
 h1 {
