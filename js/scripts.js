@@ -2,21 +2,24 @@
 
 let pokemonRepository = (function (){
 
-let pokemonList = [
-    { name: 'Ivysaur', height: 3.03, type:['Grass','Poison']},
-    { name: 'Charmeleon', height: 3.07, type:['Fire']},
-    { name:'Blastoise', height: 5.03, type:['Water']} ,
-    { name:'Metapod', height: 2.04, type:['Bug']},
-    { name:'Pikachu', height: 1.04, type:['Electric']}
-]; 
+let pokemonList = []; 
+let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=40';
+
     function add(pokemon) {
-        if (typeof pokemon === 'object') {
+        if (typeof pokemon === 'object' &&
+         'name' in pokemon &&
+         'detailsUrl' in pokemon
+         ) {
             pokemonList.push(pokemon);
+        } else{
+            console.log('Pokemon is not correct')
         }
     }
+
     function getAll() {
         return pokemonList;
     } 
+    
     function filterByName(name){
         return pokemonList.filter(function(pokemon){
           return pokemon.name === name;
@@ -40,35 +43,69 @@ let pokemonList = [
     }
 
     function addEventListenerToButton(button, pokemon) {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', function (event) {
             showDetails(pokemon);
-        })
-        function showDetails(pokemon) {
-            console.log(pokemon);
+        });
+    }
 
-        }
+    function loadList() {
+        return fetch(apiUrl).then(function (response) {
+            return response.json();
+        }).then(function (json) {
+            json.results.forEach(function (item) {
+                let pokemon = {
+                    name: item.name, 
+                    detailsUrl: item.url // in json list each item returns a key. name, url
+                };
+                add(pokemon);
+                console.log(pokemon);
+            });
+        }).catch(function (e) {
+            console.error(e);
+        })
+    }
+    function loadDetails(item) {
+        let url = item.detailsUrl;
+        return fetch(url).then(function (response) {
+            return response.json();
+        }).then(function (details) {
+            // details to the item is added
+            item.imgUrl = details.sprites.front_default;
+            item.height = details.height;
+            item.types = details.types; // add a for loop to iterate trough each type!!!
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
+
+    function showDetails(item) {
+        pokemonRepository.loadDetails(item).then(function(){
+            console.log(item);
+        }); 
     }
 
 return{
     add:add,
     getAll: getAll,
     addListItem: addListItem,
-    filterByName:filterByName
+    filterByName:filterByName,
+    loadList: loadList,
+    loadDetails: loadDetails
 };
 })();
 
-// add a new object(pokemon) to the pokemonList
-pokemonRepository.add({
-    name: 'Kakuna', height: 2.00, type: ['Bug', 'Poison']
-});
-// print the list of names from pokemonList and coresponding height of that name 
-pokemonRepository.getAll().forEach(function (pokemon) {
+// print the list of names from pokemonList (from apiUrl) and show details when button clicked 
+pokemonRepository.loadList().then(function () {
 
-    pokemonRepository.addListItem(pokemon);
+    pokemonRepository.getAll().forEach(function (pokemon) {
 
+        pokemonRepository.addListItem(pokemon);
+
+    });
 });
-let filterByNameResult = pokemonRepository.filterByName('Ivysaur');
-console.log(filterByNameResult[0]);
+
+// let filterByNameResult = pokemonRepository.filterByName('Ivysaur', 'Pikachu');
+// console.log(filterByNameResult[0]);
 
 
 
