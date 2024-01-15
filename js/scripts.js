@@ -29,17 +29,26 @@ let pokemonRepository = (function (){
   
   // Function to filter pokemons by name
   function filterByName(name) {
-    return pokemonList.filter(function(pokemon){
-    return pokemon.name === name;
-    });                           
-  }
+    let containerElement = document.querySelector('.row');
+    let pokemonNames = pokemonList.map(item => item.name);
+
+    pokemonNames.forEach((element) => {
+        let containerChild = document.querySelector(`[id=${element}]`);
+        if (containerChild) {
+         if (!element.match(name)) {
+           containerElement.removeChild(containerChild);
+         }
+        }
+    });
+}
 
   // Create Pokemon Buttons List  
   function addListItem(pokemon) {
     let pokemonAddList = document.querySelector('.row');
     let divElement = document.createElement('div');
     pokemonAddList.appendChild(divElement);
-    divElement.classList.add('list-group-item','col-6','col-sm-4','col-md-4','col-lg-3');
+    divElement.classList.add('list-group-item','col-12','col-sm-6','col-md-4','col-lg-4');
+    divElement.id = pokemon.name;
 
     let button = document.createElement('button');
     button.innerText = pokemon.name;
@@ -47,7 +56,7 @@ let pokemonRepository = (function (){
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', '#exampleModal');  
     divElement.appendChild(button);
-    button.classList.add('btn','btn-dark','btn-lg','btn-block');
+    button.classList.add('btn','btn-lg','btn-block', 'list-btn');
   }
 
   //  Function to fetch the list of Pokemon Items from API
@@ -118,9 +127,14 @@ let pokemonRepository = (function (){
     });
   }
 
-  $('#exampleModal').on('shown.bs.modal', function(event) {
+  $('#exampleModal').on('show.bs.modal', function(event) {
     let pokemonID = event.relatedTarget.dataset.id;
     showDetails(pokemonList[pokemonID]);
+  });
+
+  $('#searchItem').on('change input', function(event) {
+    let inputText = $('#searchItem').val();
+    filterByName(inputText);
   });
 
   return{
@@ -139,11 +153,6 @@ let pokemonRepository = (function (){
       pokemonRepository.addListItem(pokemon);
     });
   });
-
-  // let filterByNameResult = pokemonRepository.filterByName('Ivysaur', 'Pikachu');
-// console.log(filterByNameResult[0]);
-
-
 
 
 
