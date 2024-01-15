@@ -1,9 +1,31 @@
-.row{
-  margin-top: 80px;
-}
-.btn{
-  text-transform: capitalize;
 
+
+.row{
+  margin-top: 100px;
+}
+.list-btn{
+  text-transform: capitalize;
+  background-color: #cef2ee;
+  color: #03695b;
+  border: 1px solid #343a40;
+  font-family: 'Titan One', sans-serif;
+
+}
+.list-group-item{
+  background-color: #f7f7f7; 
+}
+.navbar-brand{
+  font-size: 36px;
+}
+.navbar{
+  background-color: #03695b;
+  padding: 8px 24px;
+}
+.form-text{
+  line-height: 2.0px;
+  border-radius: 4px;
+  padding: 6px;
+  border: transparent;
 }
 .type-content{
   margin: 4px 4px;
