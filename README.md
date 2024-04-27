@@ -48,7 +48,5 @@ and Popper: <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/
 
 jQuery: <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 
-EsLint and Prettier-Code formatter
-
 **\*API Url the project uses:**
 "https://pokeapi.co/api/v2/pokemon/"
